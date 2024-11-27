@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EasyDriveRentals.Application\EasyDriveRentals.Application.csproj" />
+  </ItemGroup>
+
 </Project>

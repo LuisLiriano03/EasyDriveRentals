@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EasyDriveRentals.Application\EasyDriveRentals.Application.csproj" />
+    <ProjectReference Include="..\EasyDriveRentals.Infrastructure\EasyDriveRentals.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
