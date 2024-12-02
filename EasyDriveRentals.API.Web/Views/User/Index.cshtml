@@ -1,0 +1,200 @@
+﻿
+@{
+    ViewData["Title"] = "Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Estilos{
+    <link rel="stylesheet" href="~/vendor/datatables/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/vendor/datatables/extensiones/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="~/vendor/datatables/extensiones/css/buttons.dataTables.min.css">
+}
+
+<style>
+    /* Redondear las esquinas del formulario */
+    #modalData .modal-content {
+        border-radius: 10px; /* Esquinas redondeadas */
+        border: 1px solid #ccc; /* Borde del modal */
+    }
+
+    #modalData .modal-body {
+        padding: 15px;
+        border-radius: 10px; /* Esquinas redondeadas en el cuerpo del modal */
+        border: 1px solid #ccc; /* Borde alrededor del formulario */
+    }
+
+    /* Espaciado entre los formularios */
+    #modalData .form-row {
+        margin-bottom: 10px;
+    }
+
+    #modalData .form-group {
+        margin-bottom: 0;
+    }
+
+    /* Asegúrate de que los campos de texto también tengan bordes redondeados */
+    #modalData .form-control {
+        border-radius: 5px;
+    }
+
+    #modalData .modal-footer {
+        display: flex;
+        justify-content: flex-end; /* Alinea los botones a la izquierda */
+        gap: 10px; /* Espacio de 10px entre los botones */
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    #modalData .btn {
+        border-radius: 5px; /* Bordes redondeados en los botones */
+        margin: 0; /* Elimina el margen para acercar los botones */
+    }
+
+
+
+
+</style>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3 bg-second-primary">
+        <h6 class="m-0 font-weight-bold text-white">Lista de Usuarios</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-3">
+                <button class="btn btn-success" id="btnNuevo"><i class="fas fa-user-plus"></i> Nuevo Usuario</button>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered" id="tbdata" cellspacing="0" style="width:100%">
+                    <thead>
+                        <tr>
+
+                            <th>Id</th>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Genero</th>
+                            <th>Telefono</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                    
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  Modal-->
+<div class="modal fade" id="modalData" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6>Detalle Usuario</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" value="0" id="txtId">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-row">
+                                <div class="form-group col-sm-6">
+                                    <label class="fas fa-id-card" for="txtIdNumber">ID</label>
+                                    <input type="text" class="form-control form-control-sm input-validar" id="txtIdNumber" name="Cedula">
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label class="fas fa-user" for="txtFullName">Nombre Completo</label>
+                                    <input type="text" class="form-control form-control-sm input-validar" id="txtFullName" name="Nombre Completo">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-sm-6">
+                                    <label class="fas fa-venus-mars" for="cboGender">Genero</label>
+                                    <select class="form-control form-control-sm" id="cboGender">
+                                        <option value="">Seleccione un Genero</option>
+                                        @foreach (var rol in ViewBag.Genders)
+                                        {
+                                            <option value="@rol.Id">@rol.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label class="fas fa-phone" for="txtPhoneNumber">Teléfono</label>
+                                    <input type="text" class="form-control form-control-sm input-validar" id="txtPhoneNumber" name="Telefono">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-sm-6">
+                                    <label class="fas fa-envelope-open-text" for="txtEmail">Correo</label>
+                                    <input type="email" class="form-control form-control-sm input-validar" id="txtEmail" name="Correo">
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label class="fas fa-key" for="txtPassword">Contraseña</label>
+                                    <input type="password" class="form-control form-control-sm input-validar" id="txtPassword" name="Contraseña">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-sm-6">
+                                    <label class="fas fa-user-shield" for="cboRol">Rol</label>
+                                    <select class="form-control form-control-sm" id="cboRol">
+                                        <option value="">Seleccione un Rol</option>
+                                        @foreach (var rol in ViewBag.Roles)
+                                        {
+                                            <option value="@rol.Id">@rol.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-sm" type="button" id="btnGuardar">Guardar</button>
+                <button class="btn btn-danger btn-sm" type="button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    @* <!-- Bootstrap core JavaScript-->
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="~/js/sb-admin-2.js"></script> *@
+    <!-- ============================================================
+    =SCRIPTS PARA ESTA PAGINA
+    ===============================================================-->
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <script src="~/vendor/datatables/extensiones/js/dataTables.responsive.min.js"></script>
+
+    <script src="~/vendor/datatables/extensiones/js/dataTables.buttons.min.js"></script>
+    <script src="~/vendor/datatables/extensiones/js/jszip.min.js"></script>
+    <script src="~/vendor/datatables/extensiones/js/buttons.html5.min.js"></script>
+    <script src="~/vendor/datatables/extensiones/js/buttons.print.min.js"></script>
+
+    <script src="~/js/vistas/UserIndex.js"></script>
+
+    <!-- SOLO ES DE EJEMPLO - IGNORAR -->
+    @* //<script src="~/js/vistas/datatables-demo.js"></script> *@
+}

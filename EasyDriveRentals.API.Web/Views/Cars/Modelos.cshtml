@@ -1,0 +1,240 @@
+﻿@{
+    ViewData["Title"] = "Modelos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Estilos {
+    <link rel="stylesheet" href="~/vendor/datatables/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/vendor/datatables/extensiones/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="~/vendor/datatables/extensiones/css/buttons.dataTables.min.css">
+}
+
+<style>
+    /* Ajustar espaciado en el card */
+    .card-body {
+        padding: 20px;
+    }
+
+    /* Espaciado entre filas */
+    .row {
+        margin-bottom: 20px;
+    }
+
+    .col-sm-3,
+    .col-sm-12 {
+        margin-bottom: 10px;
+    }
+
+    /* Modal espacioso */
+    #modalData .modal-content {
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+
+    #modalData .modal-body {
+        padding: 20px;
+    }
+
+    /* Ajustar formulario dentro del modal */
+    #modalData .form-row {
+        margin-bottom: 15px;
+    }
+
+    #modalData .form-group {
+        margin-bottom: 10px;
+    }
+
+    /* Bordes redondeados y paddings */
+    #modalData .form-control {
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    /* Estilizar botones */
+    #modalData .modal-footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    #modalData .btn {
+        border-radius: 5px;
+        padding: 8px 20px;
+    }
+
+    /* Tabla con diseño responsivo */
+    #tbdata {
+        width: 100%;
+        font-size: 14px;
+    }
+
+        #tbdata th,
+        #tbdata td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+    /* Botones con solo iconos */
+    .btn i {
+        margin-right: 5px;
+    }
+</style>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 bg-second-primary">
+        <h6 class="m-0 font-weight-bold text-white">Lista de Modelos</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-3">
+                <button class="btn btn-success" id="btnNuevo"><i class="fas fa-plus"></i> Nueva Modelos</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered" id="tbdata" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Marca</th>
+                            <th>Categoria</th>
+                            <th>Modelos</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalData" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6>Detalle Categoría</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" value="0" id="txtId">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="txtDescripcion">Descripción</label>
+                                <input type="text" class="form-control form-control-sm input-validar" id="txtDescripcion" placeholder="Descripción de la categoría">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="cboEstado">Estado</label>
+                                <select class="form-control form-control-sm" id="cboEstado">
+                                    <option value="1">Activo</option>
+                                    <option value="0">No Activo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-sm" type="button" id="btnGuardar">Guardar</button>
+                <button class="btn btn-danger btn-sm" type="button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            const categorias = [
+                { Id: 1, Modelos: "Toyota Yaris", Marca: "Toyota", Categoria: "Economico", Estado: "Activo" },
+                { Id: 2, Modelos: "Mazda 3.", Marca: "Mazda", Categoria: "Compacto", Estado: "Activo" },
+                { Id: 3, Modelos: "Subaru Impreza", Marca: "Subaru", Categoria: "Mediano (Midsize)", Estado: "No Activo" },
+            ];
+
+            const tabla = $('#tbdata').DataTable({
+                data: categorias,
+                columns: [
+                    { data: 'Id' },
+                    { data: 'Modelos' },
+                    { data: 'Marca' },
+                    { data: 'Categoria' },
+                    { data: 'Estado' },
+                    {
+                        data: null,
+                        render: (data) => `
+                                    <button class="btn btn-sm btn-primary btn-editar" data-id="${data.Id}">
+                                        <i class="fas fa-pencil-alt"></i> 
+                                    </button>
+                                    <button class="btn btn-sm btn-danger btn-eliminar" data-id="${data.Id}">
+                                        <i class="fas fa-trash-alt"></i> 
+                                    </button>
+                                `,
+                    },
+                ],
+                responsive: true,
+                language: { url: "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json" },
+            });
+
+            // Abrir el modal para nueva categoría
+            $('#btnNuevo').click(function () {
+                $('#modalData').modal('show');
+                $('#txtId').val(0);
+                $('#txtDescripcion').val('');
+                $('#cboEstado').val('1');
+            });
+
+            $('#btnGuardar').click(function () {
+                const id = $('#txtId').val();
+                const descripcion = $('#txtDescripcion').val();
+                const estado = $('#cboEstado').val() === '1' ? 'Activo' : 'No Activo';
+
+                if (id === "0") {
+                    categorias.push({ Id: categorias.length + 1, Descripcion: descripcion, Estado: estado });
+                } else {
+                    const categoria = categorias.find(c => c.Id == id);
+                    if (categoria) {
+                        categoria.Descripcion = descripcion;
+                        categoria.Estado = estado;
+                    }
+                }
+
+                tabla.clear().rows.add(categorias).draw();
+                $('#modalData').modal('hide');
+            });
+
+            // Editar categoría
+            $('#tbdata').on('click', '.btn-editar', function () {
+                const id = $(this).data('id');
+                const categoria = categorias.find(c => c.Id == id);
+
+                if (categoria) {
+                    $('#txtId').val(categoria.Id);
+                    $('#txtDescripcion').val(categoria.Descripcion);
+                    $('#cboEstado').val(categoria.Estado === 'Activo' ? '1' : '0');
+                    $('#modalData').modal('show');
+                }
+            });
+
+            // Eliminar categoría
+            $('#tbdata').on('click', '.btn-eliminar', function () {
+                const id = $(this).data('id');
+                const index = categorias.findIndex(c => c.Id == id);
+                if (index !== -1) {
+                    categorias.splice(index, 1);
+                    tabla.clear().rows.add(categorias).draw();
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,277 @@
+﻿@{
+    ViewData["Title"] = "Formulario de Cliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card mx-auto" style="max-width: 100%; margin-bottom: 30px;">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Registrar Cliente</h4>
+    </div>
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data" class="customer-form">
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="FullName" class="small">
+                            <i class="fas fa-user"></i> Nombre Completo
+                        </label>
+                        <input type="text" class="form-control" id="FullName" name="FullName" required>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="DateOfBirth" class="small">
+                            <i class="fas fa-calendar-alt"></i> Fecha de Nacimiento
+                        </label>
+                        <input type="date" class="form-control" id="DateOfBirth" name="DateOfBirth">
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="GenderId" class="small">
+                            <i class="fas fa-venus-mars"></i> Género
+                        </label>
+                        <select class="form-control" id="GenderId" name="GenderId">
+                            <option value="">Seleccione un Género</option>
+                            <option value="1">Masculino</option>
+                            <option value="2">Femenino</option>
+                            <option value="3">Otro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="Address" class="small">
+                            <i class="fas fa-home"></i> Dirección
+                        </label>
+                        <input type="text" class="form-control" id="Address" name="Address">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="City" class="small">
+                            <i class="fas fa-city"></i> Ciudad
+                        </label>
+                        <input type="text" class="form-control" id="City" name="City">
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="State" class="small">
+                            <i class="fas fa-map-marker-alt"></i> Estado
+                        </label>
+                        <input type="text" class="form-control" id="State" name="State">
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="PostalCode" class="small">
+                            <i class="fas fa-envelope"></i> Código Postal
+                        </label>
+                        <input type="text" class="form-control" id="PostalCode" name="PostalCode">
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="Phone" class="small">
+                            <i class="fas fa-phone"></i> Teléfono
+                        </label>
+                        <input type="text" class="form-control" id="Phone" name="Phone">
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="Email" class="small">
+                            <i class="fas fa-envelope-open-text"></i> Correo Electrónico
+                        </label>
+                        <input type="email" class="form-control" id="Email" name="Email">
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="PasswordHash" class="small">
+                            <i class="fas fa-key"></i> Contraseña
+                        </label>
+                        <input type="password" class="form-control" id="PasswordHash" name="PasswordHash">
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="RolId" class="small">
+                            <i class="fas fa-user-shield"></i> Rol
+                        </label>
+                        <select class="form-control" id="RolId" name="RolId">
+                            <option value="">Seleccione un Rol</option>
+                            <option value="1">Administrador</option>
+                            <option value="2">Usuario</option>
+                            <option value="3">Cliente</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="IdType" class="small">
+                            <i class="fas fa-id-card"></i> Tipo de ID
+                        </label>
+                        <input type="text" class="form-control" id="IdType" name="IdType">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="IdNumber" class="small">
+                            <i class="fas fa-id-card-alt"></i> Número de ID
+                        </label>
+                        <input type="text" class="form-control" id="IdNumber" name="IdNumber">
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="DriverLicenseNumber" class="small">
+                            <i class="fas fa-car"></i> Número de Licencia de Conducir
+                        </label>
+                        <input type="text" class="form-control" id="DriverLicenseNumber" name="DriverLicenseNumber">
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="LicenseIssuingCountry" class="small">
+                            <i class="fas fa-flag"></i> País Emisor de la Licencia
+                        </label>
+                        <input type="text" class="form-control" id="LicenseIssuingCountry" name="LicenseIssuingCountry">
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="LicenseExpiryDate" class="small">
+                            <i class="fas fa-calendar-day"></i> Fecha de Expiración de la Licencia
+                        </label>
+                        <input type="date" class="form-control" id="LicenseExpiryDate" name="LicenseExpiryDate">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="IdPhoto" class="small">
+                            <i class="fas fa-camera"></i> Foto de ID
+                        </label>
+                        <input type="file" class="form-control" id="IdPhoto" name="IdPhoto">
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="PhotoPassport" class="small">
+                            <i class="fas fa-passport"></i> Foto de Pasaporte
+                        </label>
+                        <input type="file" class="form-control" id="PhotoPassport" name="PhotoPassport">
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="PhotoDriverLicense" class="small">
+                            <i class="fas fa-id-card"></i> Foto de Licencia de Conducir
+                        </label>
+                        <input type="file" class="form-control" id="PhotoDriverLicense" name="PhotoDriverLicense">
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="PhotoAdditionalDocument" class="small">
+                            <i class="fas fa-paperclip"></i> Foto de Documento Adicional
+                        </label>
+                        <input type="file" class="form-control" id="PhotoAdditionalDocument" name="PhotoAdditionalDocument">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="RentalFrequency" class="small">
+                            <i class="fas fa-sync-alt"></i> Frecuencia de Renta
+                        </label>
+                        <select class="form-control" id="RentalFrequency" name="RentalFrequency">
+                            <option value="true">Frecuente</option>
+                            <option value="false">No Frecuente</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label for="IsVip" class="small">
+                        <i class="fas fa-star"></i> Es VIP
+                    </label>
+                    <select class="form-control" id="IsVip" name="IsVip">
+                        <option value="true">Sí</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label for="AppliedDiscount" class="small">
+                        <i class="fas fa-percentage"></i> Descuento Aplicado
+                    </label>
+                    <input type="number" class="form-control" id="AppliedDiscount" name="AppliedDiscount" min="0" step="0.01">
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <label for="IsActive" class="small">
+                        <i class="fas fa-check-circle"></i> ¿Activo?
+                    </label>
+                    <select class="form-control" id="IsActive" name="IsActive">
+                        <option value="true">Sí</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-4 col-lg-12">
+                    <div class="form-group">
+                        <label for="Comments" class="small">
+                            <i class="fas fa-comment"></i> Comentarios
+                        </label>
+                        <textarea class="form-control" id="Comments" name="Comments"></textarea>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mt-4">
+                <i class="fas fa-save"></i> Guardar Cliente
+            </button>
+        </form>
+    </div>
+</div>
+
+
+
+
