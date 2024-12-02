@@ -1,7 +1,34 @@
+using EasyDriveRentals.API.Web.Config;
+using EasyDriveRentals.Infrastructure;
+using EasyDriveRentals.Application;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+builder.Services
+    .AddApplication()
+    .AddRepositories();
+
+
+builder.Services.ConfigDbConnection(builder.Configuration);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
+// Add IHttpContextAccessor
+builder.Services.AddHttpContextAccessor();
+
+
 
 var app = builder.Build();
 

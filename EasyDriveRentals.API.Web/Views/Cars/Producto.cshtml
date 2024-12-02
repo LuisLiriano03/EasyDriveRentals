@@ -1,0 +1,466 @@
+﻿@* @{
+    ViewData["Title"] = "Vehículos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+            .card:hover {
+                transform: scale(1.05);
+            }
+
+            .card img {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+            }
+
+        .card-body {
+            padding: 15px;
+        }
+
+            .card-body h5 {
+                font-size: 18px;
+                margin: 0;
+                color: #333;
+            }
+
+            .card-body p {
+                color: #777;
+                font-size: 14px;
+            }
+
+            .card-body .btn-details {
+                display: inline-block;
+                margin-top: 10px;
+                padding: 8px 15px;
+                background-color: #007bff;
+                color: white;
+                border-radius: 5px;
+                text-decoration: none;
+            }
+
+                .card-body .btn-details:hover {
+                    background-color: #0056b3;
+                }
+
+        /* Modal Estilo */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 600px;
+            width: 80%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+    </style>
+</head>
+<body>
+
+    <h1>@ViewData["Title"]</h1>
+
+    <div class="card-container" id="card-container"></div>
+
+    <!-- Modal -->
+    <div id="vehicleModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 id="modalModel"></h3>
+            <p><strong>Marca:</strong> <span id="modalBrand"></span></p>
+            <p><strong>Año:</strong> <span id="modalYear"></span></p>
+            <p><strong>Motor:</strong> <span id="modalEngine"></span></p>
+            <p><strong>Tipo:</strong> <span id="modalType"></span></p>
+            <p><strong>Interior:</strong> <span id="modalInterior"></span></p>
+            <p><strong>Precio:</strong> <span id="modalPrice"></span></p>
+            <p><strong>Transmisión:</strong> <span id="modalTransmission"></span></p>
+            <p><strong>Tracción:</strong> <span id="modalTraction"></span></p>
+        </div>
+    </div>
+
+    <script>
+        const categorias = [
+            {
+                Id: 1,
+                Modelos: "Toyota Yaris",
+                Marca: "Toyota",
+                Año: 2020,
+                Motor: "1.4, 4 cilindros",
+                Tipo: "Sedán",
+                Interior: "Negro",
+                Precio: "US$ 27,900",
+                Transmisión: "Automática",
+                Tracción: "Delantera",
+                Imagen: "https://img.supercarros.com/AdsPhotos/266x600/0/11275570.jpg",
+            }
+        ];
+
+        function createCards() {
+            const container = document.getElementById('card-container');
+            categorias.forEach(car => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.onclick = () => openModal(car);
+
+                card.innerHTML = `
+                                    <img src="${car.Imagen}" alt="${car.Modelos}">
+                                    <div class="card-body">
+                                        <h5>${car.Modelos}</h5>
+                                        <p>${car.Marca}</p>
+                                        <a href="javascript:void(0);" class="btn-details">Ver Detalles</a>
+                                    </div>
+                                `;
+                container.appendChild(card);
+            });
+        }
+
+        function openModal(car) {
+            const modal = document.getElementById("vehicleModal");
+            const modalModel = document.getElementById("modalModel");
+            const modalBrand = document.getElementById("modalBrand");
+            const modalYear = document.getElementById("modalYear");
+            const modalEngine = document.getElementById("modalEngine");
+            const modalType = document.getElementById("modalType");
+            const modalInterior = document.getElementById("modalInterior");
+            const modalPrice = document.getElementById("modalPrice");
+            const modalTransmission = document.getElementById("modalTransmission");
+            const modalTraction = document.getElementById("modalTraction");
+
+            modalModel.innerHTML = car.Modelos;
+            modalBrand.innerHTML = car.Marca;
+            modalYear.innerHTML = car.Año;
+            modalEngine.innerHTML = car.Motor;
+            modalType.innerHTML = car.Tipo;
+            modalInterior.innerHTML = car.Interior;
+            modalPrice.innerHTML = car.Precio;
+            modalTransmission.innerHTML = car.Transmisión;
+            modalTraction.innerHTML = car.Tracción;
+
+            modal.style.display = "flex";
+        }
+
+        document.querySelector(".close").onclick = function () {
+            document.getElementById("vehicleModal").style.display = "none";
+        }
+
+        document.addEventListener('DOMContentLoaded', createCards);
+    </script>
+
+</body>
+</html>
+ *@
+
+@{
+    ViewData["Title"] = "Vehículos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Estilos {
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="~/vendor/datatables/extensiones/css/responsive.dataTables.min.css" rel="stylesheet">
+    <link href="~/vendor/datatables/extensiones/css/buttons.dataTables.min.css" rel="stylesheet">
+}
+
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f5f5f5;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+    }
+
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+
+            .card img:hover {
+                opacity: 0.8;
+            }
+
+    .card-body {
+        padding: 15px;
+        text-align: center;
+    }
+
+        .card-body h5 {
+            font-size: 18px;
+            margin: 0;
+            color: #333;
+        }
+
+        .card-body p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .card-body .btn-details {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+            .card-body .btn-details:hover {
+                background-color: #0056b3;
+            }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        max-width: 600px;
+        width: 80%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .close {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        cursor: pointer;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+        }
+
+    .modal-content h3 {
+        font-size: 24px;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .modal-content p {
+        font-size: 16px;
+        margin: 5px 0;
+        color: #555;
+    }
+</style>
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="card-container" id="card-container"></div>
+
+<!-- Modal -->
+<div id="vehicleModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3 id="modalModel"></h3>
+        <p><strong>Marca:</strong> <span id="modalBrand"></span></p>
+        <p><strong>Categoría:</strong> <span id="modalCategory"></span></p>
+        <p><strong>Año:</strong> <span id="modalYear"></span></p>
+        <p><strong>Motor:</strong> <span id="modalEngine"></span></p>
+        <p><strong>Tipo:</strong> <span id="modalType"></span></p>
+        <p><strong>Interior:</strong> <span id="modalInterior"></span></p>
+        <p><strong>Precio:</strong> <span id="modalPrice"></span></p>
+        <p><strong>Transmisión:</strong> <span id="modalTransmission"></span></p>
+        <p><strong>Tracción:</strong> <span id="modalTraction"></span></p>
+    </div>
+</div>
+
+<script>
+    const categorias = [
+        {
+            Id: 1,
+            Modelos: "Toyota Yaris",
+            Marca: "Toyota",
+            Categoria: "Económico",
+            Año: 2020,
+            Motor: "1.4, 4 cilindros",
+            Tipo: "Sedán",
+            Interior: "Negro",
+            Precio: "US$ 45",
+            Transmisión: "Automática",
+            Tracción: "Delantera",
+            Imagen: "https://img.supercarros.com/AdsPhotos/266x600/0/11275570.jpg",
+        },
+        {
+            Id: 2,
+            Modelos: "Mazda 3",
+            Marca: "Mazda",
+            Categoria: "Compacto",
+            Año: 2021,
+            Motor: "2.0, 4 cilindros",
+            Tipo: "Compacto",
+            Interior: "Beige",
+            Precio: "US$ 35",
+            Transmisión: "Manual",
+            Tracción: "Delantera",
+            Imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOF4xzW8BqqG2QhGuo5TlVdBeM3ovYGvKG8Q&s",
+        },
+        {
+            Id: 3,
+            Modelos: "Subaru Impreza",
+            Marca: "Subaru",
+            Categoria: "Mediano",
+            Año: 2022,
+            Motor: "2.5, 4 cilindros",
+            Tipo: "Mediano",
+            Interior: "Gris",
+            Precio: "US$ 20",
+            Transmisión: "Automática",
+            Tracción: "Total",
+            Imagen: "https://hips.hearstapps.com/hmg-prod/images/subaru-wrx-sti-type-r-subasta-1640893491.jpg",
+        }
+    ];
+
+    function createCards() {
+        const container = document.getElementById('card-container');
+        categorias.forEach(car => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.onclick = () => openModal(car);
+
+            card.innerHTML = `
+                    <img src="${car.Imagen}" alt="${car.Modelos}">
+                    <div class="card-body">
+                        <h5>${car.Modelos}</h5>
+                        <p>${car.Marca}</p>
+                        <a href="javascript:void(0);" class="btn-details">Ver Detalles</a>
+                    </div>
+                `;
+            container.appendChild(card);
+        });
+    }
+
+    function openModal(car) {
+        const modal = document.getElementById("vehicleModal");
+        const modalModel = document.getElementById("modalModel");
+        const modalBrand = document.getElementById("modalBrand");
+        const modalCategory = document.getElementById("modalCategory");
+        const modalYear = document.getElementById("modalYear");
+        const modalEngine = document.getElementById("modalEngine");
+        const modalType = document.getElementById("modalType");
+        const modalInterior = document.getElementById("modalInterior");
+        const modalPrice = document.getElementById("modalPrice");
+        const modalTransmission = document.getElementById("modalTransmission");
+        const modalTraction = document.getElementById("modalTraction");
+
+        modalModel.innerHTML = car.Modelos;
+        modalBrand.innerHTML = car.Marca;
+        modalCategory.innerHTML = car.Categoria;
+        modalYear.innerHTML = car.Año;
+        modalEngine.innerHTML = car.Motor;
+        modalType.innerHTML = car.Tipo;
+        modalInterior.innerHTML = car.Interior;
+        modalPrice.innerHTML = car.Precio;
+        modalTransmission.innerHTML = car.Transmisión;
+        modalTraction.innerHTML = car.Tracción;
+
+        modal.style.display = "flex";
+    }
+
+    document.querySelector(".close").onclick = function () {
+        document.getElementById("vehicleModal").style.display = "none";
+    };
+
+    window.onload = createCards;
+</script>
+
+
